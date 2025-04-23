@@ -13,51 +13,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// Get all products
-// export const getAllProducts = async (req, res) => {
-//   try {
-//     const products = await Product.find({ status: true }); // Only fetch products with status = true (active)
-//     res.status(200).json(products);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Error fetching products' });
-//   }
-// };
-// export const getAllProducts = async (req, res) => {
-//   try {
-//     const { page = 1, limit = 10, search = '', category, minPrice, maxPrice } = req.query;
 
-//     // Calculate the skip for pagination
-//     const skip = (page - 1) * limit;
-
-//     // Build the query object with search and filtering options
-//     const query = {
-//       name: { $regex: search, $options: 'i' }, // Search by name, case-insensitive
-//       ...(category && { category }), // Filter by category if provided
-//       ...(minPrice && { price: { $gte: minPrice } }), // Filter by min price
-//       ...(maxPrice && { price: { $lte: maxPrice } }), // Filter by max price
-//     };
-
-//     // Fetch the filtered and paginated products
-//     const products = await Product.find(query)
-//       .skip(skip)
-//       .limit(Number(limit)) // Ensure limit is a number
-//       .exec();
-
-//     // Get the total count of products matching the query
-//     const totalProducts = await Product.countDocuments(query);
-
-//     // Return the response with pagination and filtering info
-//     res.status(200).json({
-//       totalItems: totalProducts,
-//       totalPages: Math.ceil(totalProducts / limit),
-//       currentPage: page,
-//       items: products,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
 
 export const getAllProducts = async (req, res) => {
   try {
