@@ -6,15 +6,6 @@ import productRoutes from './src/routes/productRoutes.js'
 import favoriteRoutes from './src/routes/favoriteRoutes.js'
 import categoryRoutes from './src/routes/categoryRoutes.js';
 import reviewRoutes from './src/routes/reviewRoutes.js';
-
-
-
-
-
-
-
-
-// Load environment variables
 dotenv.config();
 
 // Initialize Express app
@@ -30,10 +21,6 @@ app.use('/api/favorites', favoriteRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', reviewRoutes);
 
-
-
-
-
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
@@ -46,3 +33,5 @@ mongoose.connect(process.env.MONGO_URI)
     console.error('❌ MongoDB connection failed:', err.message);
     process.exit(1); // Exit process with failure
   });
+
+

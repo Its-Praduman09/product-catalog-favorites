@@ -1,11 +1,22 @@
 import Product from '../models/Product.js'; // Assuming you have a Product model
 
-// Create a new product
+
 export const createProduct = async (req, res) => {
-  const { name, description, price, category, image } = req.body;
+  const { name, description, price, category } = req.body;
+
+  // Get the uploaded image URL (Multer sets `req.file`)
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
-    const product = new Product({ name, description, price, category, image });
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      image: imageUrl, // Store image URL
+      slug: name.toLowerCase().replace(/\s+/g, '-'), // Example slug generation
+    });
+
     await product.save();
     res.status(201).json({ message: 'Product created successfully', product });
   } catch (error) {
@@ -67,12 +78,22 @@ export const getProductById = async (req, res) => {
   }
 };
 
+
 export const updateProduct = async (req, res) => {
+  const { name, description, price, category } = req.body;
+  const updatedImageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+
   try {
-    const { name, description, price, category } = req.body;
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, description, price, category },
+      {
+        name,
+        description,
+        price,
+        category,
+        image: updatedImageUrl || undefined, // Update image if provided
+        slug: name.toLowerCase().replace(/\s+/g, '-'), // Update slug as well
+      },
       { new: true }
     );
 
@@ -82,7 +103,6 @@ export const updateProduct = async (req, res) => {
 
     res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: 'Error updating product' });
   }
 };
